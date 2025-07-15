@@ -45,14 +45,14 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
         public function add_menu_items($menu_items = [])
         {
             $menu_items[] = [
-                'type' => 'menu',
+                'type' => 'submenu',
+                'parent_slug' => 'flex-master-pro',
                 'page_title' => 'Typography',
                 'menu_title' => 'Typography',
                 'capability' => 'manage_options',
-                'menu_slug' => 'flex-master-pro',
-                'callback' => [$this, 'render_main_page'],
-                'icon' => 'dashicons-admin-customizer',
-                'position' => 9
+                'menu_slug' => 'flex-master-pro-typography',
+                'callback' => [$this, 'render_submenu'],//[$this->postAudit, 'render_submenu'],
+                'position' => 1,
             ];
 
             return $menu_items;

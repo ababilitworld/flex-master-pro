@@ -1,5 +1,5 @@
 <?php
-namespace Ababilithub\FlexMasterPro\Package\Plugin\Menu\V1\Concrete\ColorScheme;
+namespace Ababilithub\FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option;
 
 (defined( 'ABSPATH' ) && defined( 'WPINC' )) || exit();
 
@@ -47,12 +47,12 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
             $menu_items[] = [
                 'type' => 'submenu',
                 'parent_slug' => 'flex-master-pro',
-                'page_title' => 'Color Scheme',
-                'menu_title' => 'Color Scheme',
+                'page_title' => 'Settings',
+                'menu_title' => 'Settings',
                 'capability' => 'manage_options',
-                'menu_slug' => 'flex-master-pro-color-scheme',
+                'menu_slug' => 'flex-master-pro-option',
                 'callback' => [$this, 'render_submenu'],//[$this->postAudit, 'render_submenu'],
-                'position' => 2,
+                'position' => 3,
             ];
 
             return $menu_items;
