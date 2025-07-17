@@ -1,11 +1,12 @@
 <?php
-namespace Ababilithub\FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option;
+namespace Ababilithub\FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ColorScheme;
 
 (defined( 'ABSPATH' ) && defined( 'WPINC' )) || exit();
 
 use Ababilithub\{
     FlexPhp\Package\Mixin\V1\Standard\Mixin as StandardMixin,
     FlexWordpress\Package\Menu\V1\Base\Menu as BaseMenu,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\Posttype as ColorSchemePosttype
 };
 
 use const Ababilithub\{
@@ -47,12 +48,12 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
             $menu_items[] = [
                 'type' => 'submenu',
                 'parent_slug' => 'flex-master-pro',
-                'page_title' => 'Settings',
-                'menu_title' => 'Settings',
+                'page_title' => 'Color Scheme',
+                'menu_title' => 'Color Scheme',
                 'capability' => 'manage_options',
-                'menu_slug' => 'flex-master-pro-option',
-                'callback' => [$this, 'render_submenu'],//[$this->postAudit, 'render_submenu'],
-                'position' => 5,
+                'menu_slug' => 'edit.php?post_type='.ColorSchemePosttype::POSTTYPE,
+                'callback' => '',
+                'position' => 3,
             ];
 
             return $menu_items;

@@ -8,8 +8,10 @@ use Ababilithub\{
     FlexWordpress\Package\Menu\V1\Contract\Menu as MenuContract, 
     FlexWordpress\Package\Menu\V1\Factory\Menu as MenuFactory,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Main\Menu as MainMenu,
-    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Typography\Menu as TypographyMenu,
-    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\ColorScheme\Menu as ColorSchemeMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\CompanyInfo\Menu as CompanyInfoMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ImportantLink\Menu as ImportantLinkMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\Typography\Menu as TypographyMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ColorScheme\Menu as ColorSchemeMenu,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option\Menu as OptionMenu, 
 };
 
@@ -23,11 +25,13 @@ class  Menu extends BaseManager
     public function init()
     {
         $this->set_items(
-                [
-                    MainMenu::class,                    
-                    TypographyMenu::class,
-                    ColorSchemeMenu::class,
-                    OptionMenu::class,                    
+            [
+                MainMenu::class,
+                CompanyInfoMenu::class,
+                // ImportantLinkMenu::class,
+                // ColorSchemeMenu::class,
+                // TypographyMenu::class,
+                // OptionMenu::class,                    
             ]
         );
     }
