@@ -60,8 +60,8 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                         <?php
                             $deedPdfField = FieldFactory::get(DocField::class);
                             $deedPdfField->init([
-                                'name' => 'company-attachments',
-                                'id' => 'company-attachments',
+                                'name' => 'post-attachments',
+                                'id' => 'post-attachments',
                                 'label' => 'Company Attachments',
                                 'class' => 'custom-file-input',
                                 'required' => true,
@@ -71,7 +71,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'help_text' => 'Only PDF, Word, and Excel files are allowed (Max size: 5MB)',
                                 'max_size' => 5242880, // 5MB
                                 'enable_media_library' => true,
-                                'preview_items' => $meta_values['company_attachments'],
+                                'preview_items' => $meta_values['post_attachments'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -90,7 +90,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     public function get_meta_values($post_id): array 
     {
         return [
-            'company_attachments' => get_post_meta($post_id, 'company-attachments', true) ?: []
+            'post_attachments' => get_post_meta($post_id, 'post-attachments', true) ?: []
         ];
     }
 
@@ -101,6 +101,6 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
             return;
         }
 
-        $this->save_multiple_attachments($post_id, 'company-attachments', array_map('absint', $_POST['company-attachments'] ?? []));
+        $this->save_multiple_attachments($post_id, 'post-attachments', array_map('absint', $_POST['post-attachments'] ?? []));
     }
 }

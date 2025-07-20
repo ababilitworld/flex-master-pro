@@ -163,16 +163,15 @@ class Template
                         <section class="post-section property-details">
                             <h2 class="section-title">
                                 <i class="fas fa-info-circle"></i>
-                                <?php esc_html_e('Deed Information', 'flex-eland'); ?>
+                                <?php esc_html_e('Company Information', 'flex-eland'); ?>
                             </h2>
                             
                             <div class="details-grid">
                                 <?php 
                                 $property_details = [
-                                    'post-date' => ['icon' => 'fas fa-calendar-check', 'label' => __('Deed Date', 'flex-eland')],
-                                    'post-number' => ['icon' => 'fas fa-map-marker-alt', 'label' => __('Deed Number', 'flex-eland')],
-                                    'plot-number' => ['icon' => 'fas fa-map-marker-alt', 'label' => __('Plot Number', 'flex-eland')],
-                                    'land-quantity' => ['icon' => 'fas fa-ruler-combined', 'label' => __('Land Area (Decimal)', 'flex-eland')],
+                                    'mobile-number' => ['icon' => 'fas fa-phone', 'label' => __('Mobile Number', 'flex-eland')],
+                                    'email-address' => ['icon' => 'fas fa-envelop', 'label' => __('Email Address', 'flex-eland')],
+                                    'physical-address' => ['icon' => 'fas fa-map-marker-alt', 'label' => __('Physical Address', 'flex-eland')],
                                 ];
                                 
                                 foreach ($property_details as $field => $data) :
@@ -191,27 +190,27 @@ class Template
                             </div>
                         </section>
 
-                        <!-- Deed Content -->
+                        <!-- Company Content -->
                         <section class="post-section post-content">
                             <h2 class="section-title">
                                 <i class="fas fa-file-signature"></i>
-                                <?php esc_html_e('Deed Details', 'flex-eland'); ?>
+                                <?php esc_html_e('Company Details', 'flex-eland'); ?>
                             </h2>
                             <div class="content-wrapper">
                                 <?php echo apply_filters('the_content', $post->post_content); ?>
                             </div>
                         </section>
 
-                        <!-- Documents Gallery -->
+                        <!-- Attachments Gallery -->
                         <!-- <section class="post-section documents-gallery">
                             <h2 class="section-title">
                                 <i class="fas fa-file-contract"></i>
-                                <?php esc_html_e('Deed Documents', 'flex-eland'); ?>
+                                <?php esc_html_e('Company Attachments', 'flex-eland'); ?>
                             </h2>
                             
-                            <?php if ($docs = get_post_meta($post->ID, 'post-docs', true)) : ?>
+                            <?php if ($attachments = get_post_meta($post->ID, 'post-attachments', true)) : ?>
                                 <div class="documents-grid">
-                                    <?php foreach ($docs as $doc_id) : 
+                                    <?php foreach ($attachments as $doc_id) : 
                                         $doc_url = wp_get_attachment_url($doc_id);
                                         $doc_title = get_the_title($doc_id);
                                         $file_type = wp_check_filetype($doc_url);
@@ -269,15 +268,15 @@ class Template
                             </div>
                         </div> -->
 
-                        <!-- Documents Gallery Widget -->
-                        <?php if ($docs = get_post_meta($post->ID, 'post-docs', true)) : ?>
+                        <!-- Attachments Gallery Widget -->
+                        <?php if ($attachments = get_post_meta($post->ID, 'post-attachments', true)) : ?>
                             <div class="sidebar-widget documents-gallery">
                                 <h3 class="widget-title">
                                     <i class="fas fa-file-contract"></i>
-                                    <?php esc_html_e('Deed Documents', 'flex-eland'); ?>
+                                    <?php esc_html_e('Company Attachments', 'flex-eland'); ?>
                                 </h3>
                                 <div class="documents-grid">
-                                    <?php foreach ($docs as $doc_id) : 
+                                    <?php foreach ($attachments as $doc_id) : 
                                         $doc_url = wp_get_attachment_url($doc_id);
                                         $doc_title = get_the_title($doc_id);
                                         $file_type = wp_check_filetype($doc_url);
@@ -305,7 +304,7 @@ class Template
                             <div class="sidebar-widget documents-gallery">
                                 <h3 class="widget-title">
                                     <i class="fas fa-file-contract"></i>
-                                    <?php esc_html_e('Deed Documents', 'flex-eland'); ?>
+                                    <?php esc_html_e('Company Attachments', 'flex-eland'); ?>
                                 </h3>
                                 <p class="no-documents"><?php esc_html_e('No documents available', 'flex-eland'); ?></p>
                             </div>
@@ -331,7 +330,7 @@ class Template
                             </div>
                         <?php endif; ?>
 
-                        <!-- Related Deeds -->
+                        <!-- Related Companys -->
                         <?php 
                         $mouza_terms = get_the_terms($post->ID, 'land-mouza');
                         if ($mouza_terms && !is_wp_error($mouza_terms)) :
@@ -354,7 +353,7 @@ class Template
                                 <div class="sidebar-widget related-posts">
                                     <h3 class="widget-title">
                                         <i class="fas fa-link"></i>
-                                        <?php esc_html_e('Related Deeds', 'flex-eland'); ?>
+                                        <?php esc_html_e('Related Companys', 'flex-eland'); ?>
                                     </h3>
                                     <div class="related-grid">
                                         <?php while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
@@ -398,7 +397,7 @@ class Template
         $extension = strtolower($extension);
         
         $icon_map = [
-            // Documents
+            // Attachments
             'pdf'   => 'fas fa-file-pdf',
             'doc'   => 'fas fa-file-word',
             'docx'  => 'fas fa-file-word',

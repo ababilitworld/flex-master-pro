@@ -12,7 +12,7 @@ use Ababilithub\{
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ImportantLink\Menu as ImportantLinkMenu,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\Typography\Menu as TypographyMenu,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ColorScheme\Menu as ColorSchemeMenu,
-    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option\Menu as OptionMenu, 
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option\Menu as OptionBoxMenu, 
 };
 
 class  Menu extends BaseManager
@@ -31,7 +31,7 @@ class  Menu extends BaseManager
                 // ImportantLinkMenu::class,
                 // ColorSchemeMenu::class,
                 // TypographyMenu::class,
-                // OptionMenu::class,                    
+                OptionBoxMenu::class,                    
             ]
         );
     }

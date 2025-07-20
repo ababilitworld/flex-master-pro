@@ -6,6 +6,7 @@ namespace Ababilithub\FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option;
 use Ababilithub\{
     FlexPhp\Package\Mixin\V1\Standard\Mixin as StandardMixin,
     FlexWordpress\Package\Menu\V1\Base\Menu as BaseMenu,
+    FlexMasterPro\Package\Plugin\OptionBox\V1\Concrete\VerticalTabBox\OptionBox as VerticalTabBoxOptionBox
 };
 
 use const Ababilithub\{
@@ -18,6 +19,7 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
 
     class Menu extends BaseMenu
     {
+        private $option_box;
 
         public function init(array $data = []) : static
         {
@@ -29,7 +31,7 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
 
         public function init_service() : void
         {
-            
+            $this->option_box = new VerticalTabBoxOptionBox();
         }
 
         public function init_hook() : void
@@ -51,7 +53,7 @@ if (!class_exists(__NAMESPACE__.'\Menu'))
                 'menu_title' => 'Settings',
                 'capability' => 'manage_options',
                 'menu_slug' => 'flex-master-pro-option',
-                'callback' => [$this, 'render_submenu'],//[$this->postAudit, 'render_submenu'],
+                'callback' => [$this->option_box, 'render'],
                 'position' => 5,
             ];
 

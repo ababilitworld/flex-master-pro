@@ -62,8 +62,8 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             unset($imageField);
                             $imageField = FieldFactory::get(ImageField::class);
                             $imageField->init([
-                                'name' => 'company-logo',
-                                'id' => 'company-logo',
+                                'name' => 'post-logo',
+                                'id' => 'post-logo',
                                 'label' => 'Company Logo',
                                 'class' => 'custom-file-input',
                                 'required' => true,
@@ -73,7 +73,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'enable_media_library' => true,
                                 'upload_action_text' => 'Select Image',
                                 'help_text' => 'Only jpg, png, gif, webp files are allowed (max size: 2MB)',
-                                'preview_items' => $meta_values['company_logo'],
+                                'preview_items' => $meta_values['post_logo'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -86,8 +86,8 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             unset($imageField);
                             $imageField = FieldFactory::get(ImageField::class);
                             $imageField->init([
-                                'name' => 'company-thumbnail-image',
-                                'id' => 'company-thumbnail-image',
+                                'name' => 'post-thumbnail-image',
+                                'id' => 'post-thumbnail-image',
                                 'label' => 'Company Thumbnail',
                                 'class' => 'custom-file-input',
                                 'required' => true,
@@ -97,7 +97,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'enable_media_library' => true,
                                 'upload_action_text' => 'Select Image',
                                 'help_text' => 'Only jpg, png, gif, webp files are allowed (max size: 2MB)',
-                                'preview_items' => $meta_values['company_thumbnail_image'],
+                                'preview_items' => $meta_values['post_thumbnail_image'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -112,8 +112,8 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             unset($imageField);
                             $imageField = FieldFactory::get(ImageField::class);
                             $imageField->init([
-                                'name' => 'company-images',
-                                'id' => 'company-images',
+                                'name' => 'post-images',
+                                'id' => 'post-images',
                                 'label' => 'Company Images',
                                 'class' => 'custom-file-input',
                                 'required' => true,
@@ -123,7 +123,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'enable_media_library' => true,
                                 'upload_action_text' => 'Select Images',
                                 'help_text' => 'Only jpg, png, gif, webp files are allowed (max size: 2MB)',
-                                'preview_items' => $meta_values['company_images'],
+                                'preview_items' => $meta_values['post_images'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -142,9 +142,9 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     public function get_meta_values($post_id): array 
     {
         return [
-            'company_logo' => get_post_meta($post_id, 'company-logo', true) ?: 0, // Default to 0 (no image)
-            'company_thumbnail_image' => get_post_meta($post_id, 'company-thumbnail-image', true) ?: 0, // Default to 0 (no image)
-            'company_images' => get_post_meta($post_id, 'company-images', true) ?: [],
+            'post_logo' => get_post_meta($post_id, 'post-logo', true) ?: 0, // Default to 0 (no image)
+            'post_thumbnail_image' => get_post_meta($post_id, 'post-thumbnail-image', true) ?: 0, // Default to 0 (no image)
+            'post_images' => get_post_meta($post_id, 'post-images', true) ?: [],
             
         ];
     }
@@ -157,9 +157,9 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
         }
 
         // Save media (IDs)
-        $this->save_single_image($post_id, 'company-logo', absint($_POST['company-logo'] ?? 0));
-        $this->save_thumbnail_image($post_id, 'company-thumbnail-image', absint($_POST['company-thumbnail-image'] ?? 0));
-        $this->save_multiple_images($post_id, 'company-images', array_map('absint', $_POST['company-images'] ?? []));
+        $this->save_single_image($post_id, 'post-logo', absint($_POST['post-logo'] ?? 0));
+        $this->save_thumbnail_image($post_id, 'post-thumbnail-image', absint($_POST['post-thumbnail-image'] ?? 0));
+        $this->save_multiple_images($post_id, 'post-images', array_map('absint', $_POST['post-images'] ?? []));
         
     }
 }
