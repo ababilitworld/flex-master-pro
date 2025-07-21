@@ -7,6 +7,7 @@ use Ababilithub\{
     FlexPhp\Package\Mixin\V1\Standard\Mixin as StandardMixin,
     FlexMasterPro\Package\Plugin\Menu\V1\Manager\Menu as MenuManager,
     FlexMasterPro\Package\Plugin\Posttype\V1\Manager\Posttype as PosttypeManager,
+    FlexMasterPro\Package\Plugin\Shortcode\V1\Manager\Shortcode as ShortcodeManager, 
     FlexMasterPro\Package\Plugin\OptionBox\V1\Manager\OptionBox as OptionBoxManager,
 };
 
@@ -32,9 +33,9 @@ if (!class_exists(__NAMESPACE__.'\Production'))
                 (new PosttypeManager())->boot();
             });
 
-            // add_action('init', function () {
-            //     (new ShortcodeManager())->boot();
-            // });
+            add_action('init', function () {
+                (new ShortcodeManager())->boot();
+            });
 
             add_action('init', function () {
                 (new OptionBoxManager())->boot();

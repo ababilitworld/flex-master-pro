@@ -12,7 +12,9 @@ use Ababilithub\{
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ImportantLink\Menu as ImportantLinkMenu,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\Typography\Menu as TypographyMenu,
     FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Posttype\ColorScheme\Menu as ColorSchemeMenu,
-    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option\Menu as OptionBoxMenu, 
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\Option\Menu as OptionBoxMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\System\Wordpress\Development\Roadmap\Menu as WordpressDevelopmentRoadmapMenu,
+    FlexMasterPro\Package\Plugin\Menu\V1\Concrete\System\Status\Menu as SystemStatusMenu, 
 };
 
 class  Menu extends BaseManager
@@ -31,7 +33,9 @@ class  Menu extends BaseManager
                 // ImportantLinkMenu::class,
                 // ColorSchemeMenu::class,
                 // TypographyMenu::class,
-                OptionBoxMenu::class,                    
+                OptionBoxMenu::class,
+                WordpressDevelopmentRoadmapMenu::class,
+                SystemStatusMenu::class,                    
             ]
         );
     }
