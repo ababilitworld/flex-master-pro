@@ -88,7 +88,7 @@ class Posttype extends BasePosttype
 
     public function init_service(): void
     {
-       $this->template_service = new PosttypeTemplate();
+       $this->template_service = PosttypeTemplate::class;
     }
 
     public function init_hook(): void
@@ -132,23 +132,27 @@ class Posttype extends BasePosttype
     public function single_post($content)
     {
         // Only modify content on single post pages of specific post types
-        if (!is_singular() || !in_the_loop() || !is_main_query()) 
-        {
+        if (!is_singular() || !in_the_loop() || !is_main_query()) {
             return $content;
         }
 
         global $post;
         
-        if ($post->post_type !== $this->posttype) 
-        {
+        // First check if $post exists and is a valid post object
+        if (!$post || !is_object($post)) {
             return $content;
         }
-
+        
+        // Then check the post type
+        if ($post->post_type !== self::POSTTYPE) {
+            return $content;
+        }
+        
         // Prevent infinite recursion
         remove_filter('the_content', [$this, 'single_post']);
         
-        // Get template content
-        $template_content = $this->template_service::single_post($post);
+        // Get template content - use the class directly like in LandDeed version
+        $template_content = PosttypeTemplate::single_post($post);
         
         // Re-add our filter
         add_filter('the_content', [$this, 'single_post']);

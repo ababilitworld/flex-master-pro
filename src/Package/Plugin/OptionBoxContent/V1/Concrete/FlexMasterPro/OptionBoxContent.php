@@ -1,9 +1,10 @@
 <?php
-namespace Ababilithub\FlexELand\Package\Plugin\Posttype\V1\Concrete\Land\Deed\PostMeta\PostMetaBoxContent\Concrete\GeneralSettings;
+namespace Ababilithub\FlexWordpress\Package\OptionBoxContent\V1\Concrete\FlexMasterPro;
 
 use Ababilithub\{
-    FlexWordpress\Package\PostMeta\V1\Mixin\PostMeta as PostMetaMixin,
-    FlexWordpress\Package\PostMetaBoxContent\V1\Base\PostMetaBoxContent as BasePostMetaBoxContent,
+    FlexWordpress\Package\Option\V1\Mixin\Option as OptionMixin,
+    FlexWordpress\Package\OptionBox\V1\Concrete\VerticalTabBox\OptionBox as OptionBox,
+    FlexWordpress\Package\OptionBoxContent\V1\Base\OptionBoxContent as BaseOptionBoxContent,
     FlexPhp\Package\Form\Field\V1\Factory\Field as FieldFactory,
     FlexPhp\Package\Form\Field\V1\Concrete\Text\Field as TextField,
     FlexPhp\Package\Form\Field\V1\Concrete\File\Document\Field as DocField,
@@ -11,26 +12,23 @@ use Ababilithub\{
 };
 
 use const Ababilithub\{
-    FlexELand\PLUGIN_PRE_HYPH,
-    FlexELand\PLUGIN_PRE_UNDS,
-    FlexELand\Package\Plugin\Posttype\V1\Concrete\Land\Deed\POSTTYPE,
+    FlexMasterPro\PLUGIN_PRE_HYPH,
+    FlexMasterPro\PLUGIN_PRE_UNDS,
 };
 
-class PostMetaBoxContent extends BasePostMetaBoxContent
+class OptionBoxContent extends BaseOptionBoxContent
 {
-    use PostMetaMixin;
-    public function init(array $data = []) : static
+    use OptionMixin;
+    public function init(array $data =[]) : static
     {
-        $this->posttype = POSTTYPE;
-        $this->post_id = get_the_ID();
-        $this->tab_item_id = $this->posttype.'-'.'general-settings';
+        $this->tab_id = OptionBox::id;
+        $this->tab_item_id = $this->tab_id.'-'.'general-settings';
         $this->tab_item_label = esc_html__('General Settings');
-        $this->tab_item_icon = 'fas fa-edit';
+        $this->tab_item_icon = 'fas fa-home';
         $this->tab_item_status = 'active';
 
         $this->init_service();
         $this->init_hook();
-
         return $this;
     }
 
@@ -41,15 +39,14 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
 
     public function init_hook() : void
     {
-        add_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_item',[$this,'tab_item']);
-        add_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_content', [$this,'tab_content']);
-        //add_action('save_post', [$this, 'save'], 10, 3);
+        add_action($this->unique_id.'_'.'meta_box_tab_item',[$this,'tab_item']);
+        add_action($this->unique_id.'_'.'meta_box_tab_content', [$this,'tab_content']);
+        add_action('admin_init', [$this, 'save']);
     }
 
     public function render() : void
     {
-        $meta_values = $this->get_meta_values(get_the_ID());
-        //echo "<pre>";print_r($meta_values);echo "</pre>";exit;
+        $option_values = $this->getOptionBoxContentValues();
         ?>
             <div class="panel">
                 <div class="panel-header">
@@ -66,7 +63,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter Deed Date used in the Deed',
-                                'value' => $meta_values['deed_date'],
+                                'value' => $option_values['deed_date'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -86,7 +83,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter Deed number of the deed',
-                                'value' => $meta_values['deed_number'],
+                                'value' => $option_values['deed_number'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -104,7 +101,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter Plot number according to the Respective Survey',
-                                'value' => $meta_values['plot_number'],
+                                'value' => $option_values['plot_number'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -125,7 +122,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter Land Quantity in decimal used in the Deed',
-                                'value' => $meta_values['land_quantity'],
+                                'value' => $option_values['land_quantity'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -156,9 +153,9 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'allowed_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
                                 'max_size' => 2097152, // 2MB
                                 'enable_media_library' => true,
-                                'upload_action_text' => 'Select Image',
+                                'upload_action_text' => 'Select Images',
                                 'help_text' => 'Only jpg, png, gif, webp files are allowed',
-                                'preview_items' => $meta_values['deed_thumbnail_image'],
+                                'preview_items' => $$option_values['deed_thumbnail_image'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -181,7 +178,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'enable_media_library' => true,
                                 'upload_action_text' => 'Select Images',
                                 'help_text' => 'Only jpg, png, gif, webp files are allowed',
-                                'preview_items' => $meta_values['deed_images'],
+                                'preview_items' => $option_values['images'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -196,25 +193,25 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
 
             <div class="panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Deed Attachments</h2>
+                    <h2 class="panel-title">Deed Documents</h2>
                 </div>
                 <div class="panel-body">
                     <div class="panel-row">
                         <?php
                             $deedPdfField = FieldFactory::get(DocField::class);
                             $deedPdfField->init([
-                                'name' => 'deed-attachments',
-                                'id' => 'deed-attachments',
-                                'label' => 'Deed Attachments',
+                                'name' => 'deed-docs',
+                                'id' => 'deed-docs',
+                                'label' => 'Deed Documents',
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'multiple' => true,
                                 'allowed_types' => ['.pdf', '.doc', '.docx', '.xls', '.xlsx'],
-                                'upload_action_text' => 'Select Attachments',
+                                'upload_action_text' => 'Select Documents',
                                 'help_text' => 'Only PDF, Word, and Excel files are allowed',
                                 'max_size' => 5242880, // 5MB
                                 'enable_media_library' => true,
-                                'preview_items' => $meta_values['deed_attachments'],
+                                'preview_items' => $option_values['docs'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -230,32 +227,52 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
 
     }
 
-    public function get_meta_values($post_id): array 
+    /**
+     * Get all option values in a structured array
+     */
+    private function getOptionBoxContentValues(): array
     {
         return [
-            'deed_date' => get_post_meta($post_id, 'deed-date', true) ?: '',
-            'deed_number' => get_post_meta($post_id, 'deed-number', true) ?: '',
-            'plot_number' => get_post_meta($post_id, 'plot-number', true) ?: '',
-            'land_quantity' => get_post_meta($post_id, 'land-quantity', true) ?: '',
-            'deed_thumbnail_image' => get_post_meta($post_id, 'deed-thumbnail-image', true) ?: '',
-            'deed_images' => get_post_meta($post_id, 'deed-images', true) ?: [],
-            'deed_attachments' => get_post_meta($post_id, 'deed-attachments', true) ?: []
+            'deed_date' => get_option('deed_date') ?: '',
+            'deed_number' => get_option('deed_number') ?: '',
+            'plot_number' => get_option('plot_number') ?: '',
+            'land_quantity' => get_option('land_quantity') ?: '',
+            'deed_thumbnail_image' => get_option('deed_thumbnail_image') ?: '',
+            'images' => get_option('deed_images') ?: [],
+            'docs' => get_option('deed_attachments') ?: []
         ];
     }
 
-    public function save($post_id, $post, $update) : void 
+    /**
+     * Save all options from the submitted form data
+     */
+    public function save(array $data = []): void 
     {
-        if (!$this->is_valid_save($post_id, $post)) 
+        if (!$this->isValidOptionBoxContentSave()) 
         {
             return;
         }
 
-        $this->save_text_field($post_id,'deed-date',sanitize_text_field($_POST['deed-date']));
-        $this->save_text_field($post_id,'deed-number',sanitize_text_field($_POST['deed-number']));
-        $this->save_text_field($post_id,'plot-number',sanitize_text_field($_POST['plot-number']));
-        $this->save_text_field($post_id,'land-quantity',sanitize_text_field($_POST['land-quantity']));
-        $this->save_thumbnail_image($post_id,'deed-thumbnail-image',absint($_POST['deed-thumbnail-image']));
-        $this->save_multiple_images($post_id,'deed-images',array_map('sanitize_text_field',$_POST['deed-images']));
-        $this->save_multiple_attachments($post_id,'deed-attachments',array_map('sanitize_text_field',$_POST['deed-attachments']));
+        // Save text fields
+        $this->saveTextOptionBoxContent('deed_date', sanitize_text_field($_POST['deed_date'] ?? ''));
+        $this->saveTextOptionBoxContent('deed_number', sanitize_text_field($_POST['deed_number'] ?? ''));
+        $this->saveTextOptionBoxContent('plot_number', sanitize_text_field($_POST['plot_number'] ?? ''));
+        $this->saveTextOptionBoxContent('land_quantity', sanitize_text_field($_POST['land_quantity'] ?? ''));
+
+        // Save media fields
+        $this->saveImageOptionBoxContent(
+            'deed_thumbnail_image', 
+            absint($_POST['deed_thumbnail_image'] ?? 0)
+        );
+
+        $this->saveMultipleImagesOptionBoxContent(
+            'deed_images',
+            array_map('absint', $_POST['deed_images'] ?? [])
+        );
+
+        $this->saveMultipleAttachmentsOptionBoxContent(
+            'deed_attachments',
+            array_map('absint', $_POST['deed_attachments'] ?? [])
+        );
     }
 }

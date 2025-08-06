@@ -69,11 +69,11 @@ class Template
         );
     }
 
-    public static function single_post($post = null)
+    public static function single_post($post = null): bool|string
     {
         // Use passed post or fall back to global
         $post = $post ?: get_post();
-        
+        //echo "<pre>";print_r(get_post());echo "</pre>";exit;
         if (!$post) {
             return '';
         }
@@ -83,7 +83,7 @@ class Template
         
         ob_start();
         ?>
-        <main class="post-containr">
+        <main class="fa-single post-container">
             <article class="post-article" id="post-<?php echo $post->ID; ?>">
                 <!-- Hero Section -->
                 <header class="post-hero">
@@ -146,9 +146,6 @@ class Template
                                                     <?php foreach ($terms as $term) : ?>
                                                         <li>
                                                             <?php echo esc_html($term->name); ?>
-                                                            <!-- <a href="<?php //echo esc_url(get_term_link($term)); ?>">
-                                                                <?php //echo esc_html($term->name); ?>
-                                                            </a> -->
                                                         </li>
                                                     <?php endforeach; ?>
                                                 </ul>
@@ -170,7 +167,7 @@ class Template
                                 <?php 
                                 $property_details = [
                                     'mobile-number' => ['icon' => 'fas fa-phone', 'label' => __('Mobile Number', 'flex-eland')],
-                                    'email-address' => ['icon' => 'fas fa-envelop', 'label' => __('Email Address', 'flex-eland')],
+                                    'email-address' => ['icon' => 'fas fa-envelope', 'label' => __('Email Address', 'flex-eland')],
                                     'physical-address' => ['icon' => 'fas fa-map-marker-alt', 'label' => __('Physical Address', 'flex-eland')],
                                 ];
                                 
@@ -200,74 +197,10 @@ class Template
                                 <?php echo apply_filters('the_content', $post->post_content); ?>
                             </div>
                         </section>
-
-                        <!-- Attachments Gallery -->
-                        <!-- <section class="post-section documents-gallery">
-                            <h2 class="section-title">
-                                <i class="fas fa-file-contract"></i>
-                                <?php esc_html_e('Company Attachments', 'flex-eland'); ?>
-                            </h2>
-                            
-                            <?php if ($attachments = get_post_meta($post->ID, 'post-attachments', true)) : ?>
-                                <div class="documents-grid">
-                                    <?php foreach ($attachments as $doc_id) : 
-                                        $doc_url = wp_get_attachment_url($doc_id);
-                                        $doc_title = get_the_title($doc_id);
-                                        $file_type = wp_check_filetype($doc_url);
-                                        $icon = self::get_file_icon($file_type['ext']);
-                                        ?>
-                                        <div class="document-card">
-                                            <div class="document-icon">
-                                                <i class="<?php echo esc_attr($icon); ?>"></i>
-                                            </div>
-                                            <div class="document-info">
-                                                <h3><?php echo esc_html($doc_title); ?></h3>
-                                                <span class="file-type"><?php echo strtoupper($file_type['ext']); ?></span>
-                                            </div>
-                                            <a href="<?php echo esc_url($doc_url); ?>" 
-                                            class="download-btn" 
-                                            target="_blank" 
-                                            download>
-                                                <i class="fas fa-download"></i>
-                                            </a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php else : ?>
-                                <p class="no-documents"><?php esc_html_e('No documents available', 'flex-eland'); ?></p>
-                            <?php endif; ?>
-                        </section> -->
                     </div>
 
                     <!-- Sidebar Column -->
                     <aside class="post-sidebar">
-                        <!-- Quick Facts -->
-                        <!-- <div class="sidebar-widget quick-facts">
-                            <h3 class="widget-title">
-                                <i class="fas fa-bolt"></i>
-                                <?php esc_html_e('Quick Facts', 'flex-eland'); ?>
-                            </h3>
-                            <div class="facts-grid">
-                                <div class="fact-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <div>
-                                        <span class="fact-label"><?php esc_html_e('Posted', 'flex-eland'); ?></span>
-                                        <span class="fact-value"><?php echo human_time_diff(get_the_time('U', $post), current_time('timestamp')) . ' ago'; ?></span>
-                                    </div>
-                                </div>
-                                
-                                <?php if ($last_updated = get_the_modified_time('U', $post)) : ?>
-                                    <div class="fact-item">
-                                        <i class="fas fa-sync-alt"></i>
-                                        <div>
-                                            <span class="fact-label"><?php esc_html_e('Updated', 'flex-eland'); ?></span>
-                                            <span class="fact-value"><?php echo human_time_diff($last_updated, current_time('timestamp')) . ' ago'; ?></span>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div> -->
-
                         <!-- Attachments Gallery Widget -->
                         <?php if ($attachments = get_post_meta($post->ID, 'post-attachments', true)) : ?>
                             <div class="sidebar-widget documents-gallery">
@@ -330,13 +263,13 @@ class Template
                             </div>
                         <?php endif; ?>
 
-                        <!-- Related Companys -->
+                        <!-- Related Companies -->
                         <?php 
                         $mouza_terms = get_the_terms($post->ID, 'land-mouza');
                         if ($mouza_terms && !is_wp_error($mouza_terms)) :
                             $related_args = [
                                 'post_type' => 'flpost',
-                                'posts_per_page' => 3, // Reduced from 4 to 3
+                                'posts_per_page' => 3,
                                 'post__not_in' => [$post->ID],
                                 'tax_query' => [
                                     [
@@ -353,7 +286,7 @@ class Template
                                 <div class="sidebar-widget related-posts">
                                     <h3 class="widget-title">
                                         <i class="fas fa-link"></i>
-                                        <?php esc_html_e('Related Companys', 'flex-eland'); ?>
+                                        <?php esc_html_e('Related Companies', 'flex-eland'); ?>
                                     </h3>
                                     <div class="related-grid">
                                         <?php while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
