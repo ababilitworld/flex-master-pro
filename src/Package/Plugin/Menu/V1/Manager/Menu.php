@@ -31,7 +31,7 @@ class  Menu extends BaseManager
                 MainMenu::class,
                 CompanyInfoMenu::class,
                 // ImportantLinkMenu::class,
-                // ColorSchemeMenu::class,
+                ColorSchemeMenu::class,
                 // TypographyMenu::class,
                 OptionBoxMenu::class,
                 WordpressDevelopmentRoadmapMenu::class,

@@ -1,5 +1,5 @@
 <?php
-namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo;
+namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme;
 
 (defined('ABSPATH') && defined('WPINC')) || exit();
 
@@ -7,9 +7,9 @@ use Ababilithub\{
     FlexPhp\Package\Mixin\V1\Standard\Mixin as StandardMixin,
     FlexWordpress\Package\Posttype\V1\Mixin\Posttype as WpPosttypeMixin,
     FlexWordpress\Package\Posttype\V1\Base\Posttype as BasePosttype,
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Presentation\Template\Single\Template as PosttypeTemplate,
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\PostMeta\PostMetaBox\Manager\PostMetaBox as CompanyInfoPostMetaBoxManager,
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\PostMeta\PostMetaBoxContent\Manager\PostMetaBoxContent as CompanyInfoPostMetaBoxContentManager,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\Presentation\Template\Single\Template as PosttypeTemplate,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\PostMeta\PostMetaBox\Manager\PostMetaBox as ColorSchemePostMetaBoxManager,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\PostMeta\PostMetaBoxContent\Manager\PostMetaBoxContent as ColorSchemePostMetaBoxContentManager,
     
 };
 
@@ -22,7 +22,7 @@ class Posttype extends BasePosttype
 { 
     use WpPosttypeMixin;
 
-    public const POSTTYPE = 'flcinfo';
+    public const POSTTYPE = 'flcscem';
 
     private $template_service;
     
@@ -32,33 +32,33 @@ class Posttype extends BasePosttype
         $this->slug = self::POSTTYPE;
 
         $this->set_labels([
-            'name' => esc_html__('Company Infos', 'flex-master-pro'),
-            'singular_name' => esc_html__('Company Info', 'flex-master-pro'),
-            'menu_name' => esc_html__('Company Infos', 'flex-master-pro'),
-            'name_admin_bar' => esc_html__('Company Infos', 'flex-master-pro'),
-            'archives' => esc_html__('Company Info List', 'flex-master-pro'),
-            'attributes' => esc_html__('Company Info List', 'flex-master-pro'),
-            'parent_item_colon' => esc_html__('Company Info Item : ', 'flex-master-pro'),
-            'all_items' => esc_html__('All Company Info', 'flex-master-pro'),
-            'add_new_item' => esc_html__('Add new Company Info', 'flex-master-pro'),
-            'add_new' => esc_html__('Add new Company Info', 'flex-master-pro'),
-            'new_item' => esc_html__('New Company Info', 'flex-master-pro'),
-            'edit_item' => esc_html__('Edit Company Info', 'flex-master-pro'),
-            'update_item' => esc_html__('Update Company Info', 'flex-master-pro'),
-            'view_item' => esc_html__('View Company Info', 'flex-master-pro'),
-            'view_items' => esc_html__('View Company Infos', 'flex-master-pro'),
-            'search_items' => esc_html__('Search Company Infos', 'flex-master-pro'),
-            'not_found' => esc_html__('Company Info Not found', 'flex-master-pro'),
-            'not_found_in_trash' => esc_html__('Company Info Not found in Trash', 'flex-master-pro'),
-            'featured_image' => esc_html__('Company Info Feature Image', 'flex-master-pro'),
-            'set_featured_image' => esc_html__('Set Company Info Feature Image', 'flex-master-pro'),
+            'name' => esc_html__('Color Schemes', 'flex-master-pro'),
+            'singular_name' => esc_html__('Color Scheme', 'flex-master-pro'),
+            'menu_name' => esc_html__('Color Schemes', 'flex-master-pro'),
+            'name_admin_bar' => esc_html__('Color Schemes', 'flex-master-pro'),
+            'archives' => esc_html__('Color Scheme List', 'flex-master-pro'),
+            'attributes' => esc_html__('Color Scheme List', 'flex-master-pro'),
+            'parent_item_colon' => esc_html__('Color Scheme Item : ', 'flex-master-pro'),
+            'all_items' => esc_html__('All Color Scheme', 'flex-master-pro'),
+            'add_new_item' => esc_html__('Add new Color Scheme', 'flex-master-pro'),
+            'add_new' => esc_html__('Add new Color Scheme', 'flex-master-pro'),
+            'new_item' => esc_html__('New Color Scheme', 'flex-master-pro'),
+            'edit_item' => esc_html__('Edit Color Scheme', 'flex-master-pro'),
+            'update_item' => esc_html__('Update Color Scheme', 'flex-master-pro'),
+            'view_item' => esc_html__('View Color Scheme', 'flex-master-pro'),
+            'view_items' => esc_html__('View Color Schemes', 'flex-master-pro'),
+            'search_items' => esc_html__('Search Color Schemes', 'flex-master-pro'),
+            'not_found' => esc_html__('Color Scheme Not found', 'flex-master-pro'),
+            'not_found_in_trash' => esc_html__('Color Scheme Not found in Trash', 'flex-master-pro'),
+            'featured_image' => esc_html__('Color Scheme Feature Image', 'flex-master-pro'),
+            'set_featured_image' => esc_html__('Set Color Scheme Feature Image', 'flex-master-pro'),
             'remove_featured_image' => esc_html__('Remove Feature Image', 'flex-master-pro'),
-            'use_featured_image' => esc_html__('Use as Company Info featured image', 'flex-master-pro'),
-            'insert_into_item' => esc_html__('Insert into Company Info', 'flex-master-pro'),
+            'use_featured_image' => esc_html__('Use as Color Scheme featured image', 'flex-master-pro'),
+            'insert_into_item' => esc_html__('Insert into Color Scheme', 'flex-master-pro'),
             'uploaded_to_this_item' => esc_html__('Uploaded to this ', 'flex-master-pro'),
-            'items_list' => esc_html__('Company Info list', 'flex-master-pro'),
-            'items_list_navigation' => esc_html__('Company Info list navigation', 'flex-master-pro'),
-            'filter_items_list' => esc_html__('Filter Company Info List', 'flex-master-pro')
+            'items_list' => esc_html__('Color Scheme list', 'flex-master-pro'),
+            'items_list_navigation' => esc_html__('Color Scheme list navigation', 'flex-master-pro'),
+            'filter_items_list' => esc_html__('Filter Color Scheme List', 'flex-master-pro')
         ]);
 
         $this->set_posttype_supports(
@@ -96,15 +96,15 @@ class Posttype extends BasePosttype
         add_action('after_setup_theme', [$this, 'init_theme_supports'],0);
 
         add_action('add_meta_boxes', function () {
-            (new CompanyInfoPostMetaBoxManager())->boot();
+            (new ColorSchemePostMetaBoxManager())->boot();
         });
 
         add_action('add_meta_boxes', function () {
-            (new CompanyInfoPostMetaBoxContentManager())->boot();
+            (new ColorSchemePostMetaBoxContentManager())->boot();
         });
 
         add_action('save_post', function ($post_id, $post, $update) {
-            (new CompanyInfoPostMetaBoxContentManager())->save_post($post_id, $post, $update);
+            (new ColorSchemePostMetaBoxContentManager())->save_post($post_id, $post, $update);
         }, 10, 3);
 
         add_filter('the_content', [$this, 'single_post']);

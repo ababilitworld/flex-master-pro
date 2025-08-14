@@ -7,7 +7,8 @@ use Ababilithub\{
     FlexPhp\Package\Manager\V1\Base\Manager as BaseManager,
     FlexWordpress\Package\Posttype\V1\Factory\Posttype as PosttypeFactory,
     FlexWordpress\Package\Posttype\V1\Contract\Posttype as PosttypeContract, 
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Posttype as CompanyInfoPosttype,   
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Posttype as CompanyInfoPosttype,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\Posttype as ColorSchemePosttype,   
 };
 
 class Posttype extends BaseManager
@@ -21,6 +22,7 @@ class Posttype extends BaseManager
     {
         $this->set_items([
             CompanyInfoPosttype::class,
+            ColorSchemePosttype::class,
             // Add more posttype classes here...
         ]);
     }

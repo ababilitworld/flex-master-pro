@@ -1,5 +1,5 @@
 <?php
-namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Presentation\Template\Single;
+namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\Presentation\Template\Single;
 
 (defined('ABSPATH') && defined('WPINC')) || die();
 
@@ -7,7 +7,7 @@ use Ababilithub\{
     FlexPhp\Package\Mixin\V1\Standard\Mixin as StandardMixin,
     FlexWordpress\Package\Mixin\V1\Standard\Mixin as StandardWpMixin,
     FlexWordpress\Package\PostMeta\V1\Mixin\PostMeta as PostMetaMixin,    
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Posttype as CompanyInfoPosttype,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\Posttype as ColorSchemePosttype,
 };
 
 use const Ababilithub\{
@@ -31,7 +31,7 @@ class Template
 
     public function __construct() 
     {
-        $this->posttype = CompanyInfoPosttype::POSTTYPE;
+        $this->posttype = ColorSchemePosttype::POSTTYPE;
         $this->asset_url = $this->get_url('Asset/');
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts' ) );
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts' ) );
@@ -42,14 +42,14 @@ class Template
         wp_enqueue_script('jquery');
 
         wp_enqueue_style(
-            PLUGIN_PRE_HYPH.'-'.CompanyInfoPosttype::POSTTYPE.'-template-style', 
+            PLUGIN_PRE_HYPH.'-'.ColorSchemePosttype::POSTTYPE.'-template-style', 
             $this->asset_url.'Css/Style.css',
             array(), 
             time()
         );
 
         wp_enqueue_script(
-            PLUGIN_PRE_HYPH.'-'.CompanyInfoPosttype::POSTTYPE.'-template-script', 
+            PLUGIN_PRE_HYPH.'-'.ColorSchemePosttype::POSTTYPE.'-template-script', 
             $this->asset_url.'Js/Script.js',
             array(), 
             time(), 
@@ -57,12 +57,12 @@ class Template
         );
         
         wp_localize_script(
-            PLUGIN_PRE_HYPH.'-'.CompanyInfoPosttype::POSTTYPE.'-template-localize-script', 
-            PLUGIN_PRE_UNDS.'_'.CompanyInfoPosttype::POSTTYPE.'_template_localize', 
+            PLUGIN_PRE_HYPH.'-'.ColorSchemePosttype::POSTTYPE.'-template-localize-script', 
+            PLUGIN_PRE_UNDS.'_'.ColorSchemePosttype::POSTTYPE.'_template_localize', 
             array(
                 'adminAjaxUrl' => admin_url('admin-ajax.php'),
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'ajaxNonce' => wp_create_nonce(PLUGIN_PRE_UNDS.'_'.CompanyInfoPosttype::POSTTYPE.'_nonce'),
+                'ajaxNonce' => wp_create_nonce(PLUGIN_PRE_UNDS.'_'.ColorSchemePosttype::POSTTYPE.'_nonce'),
                 // 'ajaxAction' => PLUGIN_PRE_UNDS . '_action',
                 // 'ajaxData' => PLUGIN_PRE_UNDS . '_data',
                 // 'ajaxError' => PLUGIN_PRE_UNDS . '_error',

@@ -7,10 +7,7 @@
   --ld-primary-dark: #038a5a;
   --ld-secondary: #6c757d;
   --ld-dark: #212529;
-  --ld-danger: #dc3545;
-  --ld-border-radius: 0.5rem;
-  --ld-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-  --ld-transition: all 0.3s ease;
+  --ld-danger: #dc3545;  
 
   /* Typography */
   --ld-font-heading: 'Playfair Display', serif;
@@ -21,16 +18,18 @@
   /* Spacing */
   --ld-spacing-unit: 1rem;
   --ld-max-width: 1200px;
-  --ld-border-radius: 12px;
-  --ld-border-radius-lg: 24px;
+  --ld-border-radius: 0.5rem;
+  --ld-border-radius-lg: 24px; 
   
   /* Shadows */
   --ld-shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
   --ld-shadow-md: 0 4px 6px rgba(0,0,0,0.1);
   --ld-shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
   --ld-shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
-  
+  --ld-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    
   /* Transitions */
+  --ld-transition: all 0.3s ease;
   --ld-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 

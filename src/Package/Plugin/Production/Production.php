@@ -9,6 +9,7 @@ use Ababilithub\{
     FlexMasterPro\Package\Plugin\Posttype\V1\Manager\Posttype as PosttypeManager,
     FlexMasterPro\Package\Plugin\Shortcode\V1\Manager\Shortcode as ShortcodeManager, 
     FlexMasterPro\Package\Plugin\OptionBox\V1\Manager\OptionBox as OptionBoxManager,
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Manager\OptionBoxContent as OptionBoxContentManager,
 };
 
 if (!class_exists(__NAMESPACE__.'\Production')) 
@@ -39,6 +40,10 @@ if (!class_exists(__NAMESPACE__.'\Production'))
 
             add_action('init', function () {
                 (new OptionBoxManager())->boot();
+            });
+
+            add_action('init', function () {
+                (new OptionBoxContentManager())->boot();
             });
             
             // Initialize only once on admin_menu

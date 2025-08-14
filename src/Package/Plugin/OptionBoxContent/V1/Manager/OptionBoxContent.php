@@ -7,7 +7,8 @@ use Ababilithub\{
     FlexPhp\Package\Manager\V1\Base\Manager as BaseManager,
     FlexWordpress\Package\OptionBoxContent\V1\Factory\OptionBoxContent as OptionBoxContentFactory,
     FlexWordpress\Package\OptionBoxContent\V1\Contract\OptionBoxContent as OptionBoxContentContract, 
-    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\VerticalTabBox\OptionBoxContent as VerticalTabOptionBoxContent,   
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\CompanyInfo\OptionBoxContent as CompanyInfoOptionBoxContent,
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\ColorScheme\OptionBoxContent as ColorSchemeOptionBoxContent,      
 };
 
 class OptionBoxContent extends BaseManager
@@ -20,7 +21,8 @@ class OptionBoxContent extends BaseManager
     protected function init(): void
     {
         $this->set_items([
-            VerticalTabOptionBoxContent::class,
+            CompanyInfoOptionBoxContent::class,
+            ColorSchemeOptionBoxContent::class,
             // Add more posttype classes here...
         ]);
     }
@@ -29,11 +31,11 @@ class OptionBoxContent extends BaseManager
     {
         foreach ($this->get_items() as $itemClass) 
         {
-            $posttype = OptionBoxContentFactory::get($itemClass);
+            $itemObject = OptionBoxContentFactory::get($itemClass);
 
-            if ($posttype instanceof OptionBoxContentContract) 
+            if ($itemObject instanceof OptionBoxContentContract) 
             {
-                $posttype->register();
+                $itemObject->init();
             }
         }
     }

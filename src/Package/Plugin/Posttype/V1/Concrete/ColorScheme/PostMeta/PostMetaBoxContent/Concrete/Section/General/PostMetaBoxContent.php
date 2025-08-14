@@ -1,8 +1,8 @@
 <?php
-namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\PostMeta\PostMetaBoxContent\Concrete\Section\General;
+namespace Ababilithub\FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\PostMeta\PostMetaBoxContent\Concrete\Section\General;
 
 use Ababilithub\{
-    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\POSTTYPE as CompanyInfoPosttype,
+    FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\ColorScheme\POSTTYPE as ColorSchemePosttype,
     FlexWordpress\Package\PostMeta\V1\Mixin\PostMeta as PostMetaMixin,
     FlexWordpress\Package\PostMetaBoxContent\V1\Base\PostMetaBoxContent as BasePostMetaBoxContent,
     FlexPhp\Package\Form\Field\V1\Factory\Field as FieldFactory,
@@ -21,7 +21,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     use PostMetaMixin;
     public function init(array $data = []) : static
     {
-        $this->posttype = CompanyInfoPosttype::POSTTYPE;
+        $this->posttype = ColorSchemePosttype::POSTTYPE;
         $this->post_id = get_the_ID();
         $this->tab_item_id = $this->posttype.'-'.'section-general';
         $this->tab_item_label = esc_html__('General Information');
