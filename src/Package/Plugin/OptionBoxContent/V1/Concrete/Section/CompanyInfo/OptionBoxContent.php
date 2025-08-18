@@ -8,6 +8,8 @@ use Ababilithub\{
     FlexPhp\Package\Form\Field\V1\Concrete\Select\Field as SelectField,
     FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Posttype as CompanyInfoPosttype,
     FlexMasterPro\Package\Plugin\OptionBox\V1\Concrete\VerticalTabBox\OptionBox as VerticalTabBoxOptionBox,
+    FlexWordpress\Package\Debug\V1\Factory\Debug as DebugFactory,
+    FlexWordpress\Package\Debug\V1\Concrete\WpError\Debug as WpErrorDebug,
     
 };
 
@@ -19,9 +21,7 @@ use const Ababilithub\{
 class OptionBoxContent extends BaseOptionBoxContent 
 {
     use OptionMixin;
-    
-    public $option_name;
-    public array $option_value = [];
+    private $debugger;
 
     public function init(array $data = []): static
     {
@@ -40,47 +40,35 @@ class OptionBoxContent extends BaseOptionBoxContent
 
     protected function init_service(): void
     {
-        // Service initialization logic can be added here
+        $this->debugger = DebugFactory::get(WpErrorDebug::class);
     }
 
     protected function init_hook(): void
     {
         add_action($this->tab_id.'_tab_item', [$this, 'tab_item']);
         add_action($this->tab_id.'_tab_content', [$this, 'tab_content']);
-
-        // Register save handlers
-        add_filter(PLUGIN_PRE_UNDS.'_prepare_save_data', [$this, 'prepare_save_data']);
-        add_filter(PLUGIN_PRE_UNDS.'_before_option_update', [$this, 'validate_save_data']);
+        add_filter(PLUGIN_PRE_UNDS.'_prepare_option_data', [$this, 'prepare_option_data']);
     }
 
-    public function prepare_save_data(array $data): array
+    public function prepare_option_data(array $data = []): array
     {
-        if (isset($_POST['company_id'])) 
+        if (isset($_POST['company_id']) && !empty($_POST['company_id'])) 
         {
             $data['company_settings'] = [
-                'selected_company_id' => absint($_POST['company_id']),
+                'selected_company_id' => (int)sanitize_text_field($_POST['company_id']),
             ];
         }
         
         return $data;
     }
 
-    public function validate_save_data(array $data): array
+    public function validate_option_data(array $data = []): array
     {
-        
-        if (isset($data['company_settings']['selected_company_id'])) 
-        {
-            if (!is_numeric($data['company_settings']['selected_company_id'])) 
-            {
-                wp_die(__('Invalid company selection', 'text-domain'));
-            }
-        }
-        
         return $data;
     }
 
     public function render(): void
-    {
+    {        
         $option_values = $this->get_option_box_content_values();
         //echo "<pre>";print_r(array($option_values));echo "</pre>";exit;
         

@@ -10,6 +10,7 @@ use Ababilithub\{
     FlexMasterPro\Package\Plugin\Shortcode\V1\Manager\Shortcode as ShortcodeManager, 
     FlexMasterPro\Package\Plugin\OptionBox\V1\Manager\OptionBox as OptionBoxManager,
     FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Manager\OptionBoxContent as OptionBoxContentManager,
+    FlexMasterPro\Package\Plugin\Debug\V1\Manager\Debug as DebugManager,
 };
 
 if (!class_exists(__NAMESPACE__.'\Production')) 
@@ -25,6 +26,10 @@ if (!class_exists(__NAMESPACE__.'\Production'))
 
         public function init() 
         {
+            add_action('init', function () {
+                (new DebugManager())->boot();
+            });
+
 
             // add_action('init', function () {
             //     (new TaxonomyManager())->boot();

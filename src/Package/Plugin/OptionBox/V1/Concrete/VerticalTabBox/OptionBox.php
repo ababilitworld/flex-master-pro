@@ -2,7 +2,9 @@
 namespace Ababilithub\FlexMasterPro\Package\Plugin\OptionBox\V1\Concrete\VerticalTabBox;
 
 use Ababilithub\{
-    FlexWordpress\Package\OptionBox\V1\Base\OptionBox as BaseOptionBox
+    FlexWordpress\Package\OptionBox\V1\Base\OptionBox as BaseOptionBox,
+    FlexWordpress\Package\Debug\V1\Factory\Debug as DebugFactory,
+    FlexWordpress\Package\Debug\V1\Concrete\WpError\Debug as WpErrorDebug,
 };
 
 use const Ababilithub\{
@@ -14,11 +16,14 @@ class OptionBox extends BaseOptionBox
 {
     public const OPTION_NAME = PLUGIN_PRE_UNDS.'_'.'options';
     public array $option_value = [];
+    private $debugger;
     public $show_notice = false;
+    private $redirect_url_after_update_option;
     public function init(array $data = []) : static
     {
         $this->id = $data['id'] ?? PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
         $this->title = $data['title'] ?? 'Attributes';
+        $this->redirect_url_after_update_option = admin_url('admin.php?page=flex-master-pro-option');
         $this->init_service();
         $this->init_hook();
         return $this;
@@ -26,17 +31,14 @@ class OptionBox extends BaseOptionBox
 
     public function init_service():void
     {
-
+        $this->debugger = DebugFactory::get(WpErrorDebug::class);
     }
 
     public function init_hook():void
     {
 
         // Add filter for processing save data
-        add_filter(PLUGIN_PRE_UNDS.'_process_save_data', [$this, 'process_save_data']);
-        add_action(PLUGIN_PRE_UNDS.'_'.'save_option',[$this,'save_option']);
         add_action('admin_init',[$this,'save']);
-        add_action('admin_notices', [$this, 'display_success_notice']);
     }
 
     public function render(): void
@@ -74,21 +76,6 @@ class OptionBox extends BaseOptionBox
         <?php
     }
 
-    public function process_save_data(array $saved_data, array $post_data): array
-    {
-        // Allow other content instances to modify the saved data
-        $saved_data = apply_filters(PLUGIN_PRE_UNDS.'_before_save_data', $saved_data, $post_data);
-        
-        // Process core fields
-        if (isset($post_data['company'])) {
-            $saved_data['companies'] = [
-                'selected' => absint($post_data['company']),
-            ];
-        }
-        
-        return $saved_data;
-    }
-
     public function save(): void
     {
         if (!$this->is_valid_save_request() && $this->verify_save_security()) 
@@ -97,30 +84,16 @@ class OptionBox extends BaseOptionBox
         }
 
         // Initialize with empty array
-        $ready_data = $prepared_data = $processed_data = $ready_data = [];
+        $prepared_data = [];
 
         // Allow content sections to prepare their data
-        $prepared_data = apply_filters(PLUGIN_PRE_UNDS.'_prepare_save_data', $ready_data);
-        // Process the data
-        $processed_data = $this->process_save_data($prepared_data, $_POST);
-
-        // Allow final modifications before saving
-        $ready_data = apply_filters(PLUGIN_PRE_UNDS.'_before_option_update', $processed_data);
-
-        $option_saved = $this->update_option($ready_data);
+        $prepared_data = apply_filters(PLUGIN_PRE_UNDS.'_prepare_option_data',[]);
+        
+        $option_saved = $this->update_option($prepared_data);
 
         if ($option_saved) 
         {
-             // Start session if not already started
-            if (!session_id()) 
-            {
-                session_start();
-            }
-            
-            // Set session flag
-            $_SESSION[PLUGIN_PRE_UNDS.'_show_notice'] = true;
-            
-            wp_safe_redirect(wp_get_referer());
+            wp_safe_redirect($this->redirect_url_after_update_option);
             exit;
         }
     }

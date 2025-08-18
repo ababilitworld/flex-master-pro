@@ -29,7 +29,7 @@ class OptionBoxContent extends BaseOptionBoxContent
         $this->tab_item_id = $this->tab_id.'_color_scheme_settings';
         $this->tab_item_label = esc_html__('Color Scheme');
         $this->tab_item_icon = 'fas fa-home';
-        $this->tab_item_status = 'active';
+        $this->tab_item_status = 'not-active';
         $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();
         //echo "<pre>";print_r($this->option_value);echo "</pre>";exit;
@@ -47,33 +47,17 @@ class OptionBoxContent extends BaseOptionBoxContent
     {
         add_action($this->tab_id.'_tab_item', [$this, 'tab_item']);
         add_action($this->tab_id.'_tab_content', [$this, 'tab_content']);
+        add_filter(PLUGIN_PRE_UNDS.'_prepare_option_data', [$this, 'prepare_option_data']);
 
-        // Register save handlers
-        add_filter(PLUGIN_PRE_UNDS.'_prepare_save_data', [$this, 'prepare_save_data']);
-        add_filter(PLUGIN_PRE_UNDS.'_before_option_update', [$this, 'validate_save_data']);
     }
 
-    public function prepare_save_data(array $data): array
+    public function prepare_option_data(array $data): array
     {
         if (isset($_POST['color_scheme_id'])) 
         {
             $data['color_scheme_settings'] = [
                 'selected_color_scheme_id' => absint($_POST['color_scheme_id']),
             ];
-        }
-        
-        return $data;
-    }
-
-    public function validate_save_data(array $data): array
-    {
-        
-        if (isset($data['color_scheme_settings']['selected_color_scheme_id'])) 
-        {
-            if (!is_numeric($data['color_scheme_settings']['selected_color_scheme_id'])) 
-            {
-                wp_die(__('Invalid color_scheme selection', 'text-domain'));
-            }
         }
         
         return $data;
