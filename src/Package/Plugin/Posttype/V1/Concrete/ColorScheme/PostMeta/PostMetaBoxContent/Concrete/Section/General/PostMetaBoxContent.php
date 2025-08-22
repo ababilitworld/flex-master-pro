@@ -155,13 +155,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             ])->render();
                         ?>
                     </div>
-                    <!-- Interactive Map Picker -->
-                    <div class="panel-row">
-                        <div id="map-picker" style="height: 300px; width: 100%;"></div>
-                        <button type="button" id="update-location" class="button button-primary" style="margin-top: 10px;">
-                            Set Selected Location
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         <?php

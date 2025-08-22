@@ -3,8 +3,8 @@ namespace Ababilithub\FlexMasterPro\Package\Plugin\OptionBox\V1\Concrete\Vertica
 
 use Ababilithub\{
     FlexWordpress\Package\OptionBox\V1\Base\OptionBox as BaseOptionBox,
-    FlexWordpress\Package\Debug\V1\Factory\Debug as DebugFactory,
-    FlexWordpress\Package\Debug\V1\Concrete\WpError\Debug as WpErrorDebug,
+    FlexWordpress\Package\Notice\V1\Factory\Notice as NoticeFactory,
+    FlexWordpress\Package\Notice\V1\Concrete\WpError\Notice as WpErrorNotice,
 };
 
 use const Ababilithub\{
@@ -16,7 +16,7 @@ class OptionBox extends BaseOptionBox
 {
     public const OPTION_NAME = PLUGIN_PRE_UNDS.'_'.'options';
     public array $option_value = [];
-    private $debugger;
+    private $notice_board;
     public $show_notice = false;
     private $redirect_url_after_update_option;
     public function init(array $data = []) : static
@@ -31,7 +31,9 @@ class OptionBox extends BaseOptionBox
 
     public function init_service():void
     {
-        $this->debugger = DebugFactory::get(WpErrorDebug::class);
+        $this->notice_board = NoticeFactory::get(WpErrorNotice::class);
+        //$this->notice_board->add_error(array('code'=>'debug_check','message'=>'Now debug is working','data'=>['class'=>'notice notice-success is-dismissible']));
+        echo "<pre>";print_r($this->notice_board);echo "</pre>";exit;
     }
 
     public function init_hook():void
@@ -93,9 +95,16 @@ class OptionBox extends BaseOptionBox
 
         if ($option_saved) 
         {
-            wp_safe_redirect($this->redirect_url_after_update_option);
+            // Use transients instead of sessions
+            set_transient('ababilithub'.'_notice', true, 60);
+            $this->notice_board->add_error([
+                'code' => 'settings_save',
+                'message' => __('Settings saved successfully!', 'text-domain'),
+                'data' => ['class' => 'notice notice-success is-dismissible']
+            ]);
+            wp_safe_redirect($this->redirect_url_after_update_option);                    
             exit;
-        }
+        }   
     }
 
     protected function is_valid_save_request(): bool
@@ -143,26 +152,9 @@ class OptionBox extends BaseOptionBox
         return update_option(self::OPTION_NAME, $updated_options);
     }
 
-    public function display_success_notice(): void
+    public function admin_notices(): void
     {
-        // Start session if not already started
-        if (!session_id()) 
-        {
-            session_start();
-        }
-        
-        if (!empty($_SESSION[PLUGIN_PRE_UNDS.'_show_notice'])) 
-        {
-            // Clear the flag
-            unset($_SESSION[PLUGIN_PRE_UNDS.'_show_notice']);
-            
-            // Show notice
-            ?>
-            <div class="notice notice-success is-dismissible">
-                <p><?php _e('Settings saved successfully!', 'text-domain'); ?></p>
-            </div>
-            <?php
-        }
+       
     }
 
 }
