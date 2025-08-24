@@ -28,7 +28,7 @@ class OptionBoxContent extends BaseOptionBoxContent
         $this->tab_id = PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
         $this->tab_item_id = $this->tab_id.'_color_scheme_settings';
         $this->tab_item_label = esc_html__('Color Scheme');
-        $this->tab_item_icon = 'fas fa-home';
+        $this->tab_item_icon = 'fas fa-palette';
         $this->tab_item_status = 'not-active';
         $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();

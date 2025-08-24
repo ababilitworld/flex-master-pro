@@ -8,7 +8,9 @@ use Ababilithub\{
     FlexWordpress\Package\OptionBoxContent\V1\Factory\OptionBoxContent as OptionBoxContentFactory,
     FlexWordpress\Package\OptionBoxContent\V1\Contract\OptionBoxContent as OptionBoxContentContract, 
     FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\CompanyInfo\OptionBoxContent as CompanyInfoOptionBoxContent,
-    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\ColorScheme\OptionBoxContent as ColorSchemeOptionBoxContent,      
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\ColorScheme\OptionBoxContent as ColorSchemeOptionBoxContent,
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\SocialPlatform\OptionBoxContent as SocialPlatformOptionBoxContent,
+    FlexMasterPro\Package\Plugin\OptionBoxContent\V1\Concrete\Section\ImportantLink\OptionBoxContent as ImportantLinkOptionBoxContent,      
 };
 
 class OptionBoxContent extends BaseManager
@@ -23,6 +25,8 @@ class OptionBoxContent extends BaseManager
         $this->set_items([
             CompanyInfoOptionBoxContent::class,
             ColorSchemeOptionBoxContent::class,
+            SocialPlatformOptionBoxContent::class,
+            ImportantLinkOptionBoxContent::class
             // Add more posttype classes here...
         ]);
     }

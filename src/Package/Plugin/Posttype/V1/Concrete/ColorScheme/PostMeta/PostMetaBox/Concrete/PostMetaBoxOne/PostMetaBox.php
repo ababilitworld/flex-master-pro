@@ -26,26 +26,29 @@ class PostMetaBox extends BasePostMetaBox
         // Dynamic title with post name if needed
         $this->title = esc_html__('Attributes : ', 'flex-eland') . get_the_title($post_id);
         ?>
-        <div class="fpba">
-            <div class="meta-box">
-                <div class="app-container">
-                    <div class="vertical-tabs">
-                        <div class="tabs-header">
-                            <button class="toggle-tabs" id="toggleTabs">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <span class="tabs-title">Attributes</span>
+        <div class="ababilithub">
+            <div class="fpba">
+                <div class="meta-box">
+                    <div class="app-container">
+                        <div class="vertical-tabs">
+                            <div class="tabs-header">
+                                <button class="toggle-tabs" id="toggleTabs">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="tabs-title">Attributes</span>
+                            </div>
+                            <ul class="tab-items">
+                                <?php do_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_item'); ?>
+                            </ul>
                         </div>
-                        <ul class="tab-items">
-                            <?php do_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_item'); ?>
-                        </ul>
+                        <main class="content-area">
+                            <?php do_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_content', $post_id); ?>
+                        </main>
                     </div>
-                    <main class="content-area">
-                        <?php do_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_content', $post_id); ?>
-                    </main>
                 </div>
             </div>
         </div>
+        
         <?php
     }
 }

@@ -54,41 +54,17 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
             
             <div class="panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Company Images</h2>
+                    <h2 class="panel-title">Color Scheme Images</h2>
                 </div>
                 <div class="panel-body">
-                    <div class="panel-row two-columns">
-                        <?php
-                            unset($imageField);
-                            $imageField = FieldFactory::get(ImageField::class);
-                            $imageField->init([
-                                'name' => 'post-logo',
-                                'id' => 'post-logo',
-                                'label' => 'Company Logo',
-                                'class' => 'custom-file-input',
-                                'required' => true,
-                                'multiple' => false,
-                                'allowed_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
-                                'max_size' => 2097152, // 2MB
-                                'enable_media_library' => true,
-                                'upload_action_text' => 'Select Image',
-                                'help_text' => 'Only jpg, png, gif, webp files are allowed (max size: 2MB)',
-                                'preview_items' => $meta_values['post_logo'],
-                                'data' => [
-                                    'custom' => 'value'
-                                ],
-                                'attributes' => [
-                                    'data-preview-size' => '150'
-                                ]
-                            ])->render();
-                        ?>
+                    <div class="panel-row">
                         <?php
                             unset($imageField);
                             $imageField = FieldFactory::get(ImageField::class);
                             $imageField->init([
                                 'name' => 'post-thumbnail-image',
                                 'id' => 'post-thumbnail-image',
-                                'label' => 'Company Thumbnail',
+                                'label' => 'Color Scheme Thumbnail',
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'multiple' => false,
@@ -114,7 +90,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             $imageField->init([
                                 'name' => 'post-images',
                                 'id' => 'post-images',
-                                'label' => 'Company Images',
+                                'label' => 'Color Scheme Images',
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'multiple' => true,
@@ -142,7 +118,6 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     public function get_meta_values($post_id): array 
     {
         return [
-            'post_logo' => get_post_meta($post_id, 'post-logo', true) ?: 0, // Default to 0 (no image)
             'post_thumbnail_image' => get_post_meta($post_id, 'post-thumbnail-image', true) ?: 0, // Default to 0 (no image)
             'post_images' => get_post_meta($post_id, 'post-images', true) ?: [],
             
@@ -157,7 +132,6 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
         }
 
         // Save media (IDs)
-        $this->save_single_image($post_id, 'post-logo', absint($_POST['post-logo'] ?? 0));
         $this->save_thumbnail_image($post_id, 'post-thumbnail-image', absint($_POST['post-thumbnail-image'] ?? 0));
         $this->save_multiple_images($post_id, 'post-images', array_map('absint', $_POST['post-images'] ?? []));
         

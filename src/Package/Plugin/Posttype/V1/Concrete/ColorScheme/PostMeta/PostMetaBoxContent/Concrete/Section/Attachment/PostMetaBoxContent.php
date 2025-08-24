@@ -53,7 +53,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
         ?>
             <div class="panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Company Attachments</h2>
+                    <h2 class="panel-title">Color Scheme Attachments</h2>
                 </div>
                 <div class="panel-body">
                     <div class="panel-row">
@@ -62,7 +62,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             $deedPdfField->init([
                                 'name' => 'post-attachments',
                                 'id' => 'post-attachments',
-                                'label' => 'Company Attachments',
+                                'label' => 'Color Scheme Attachments',
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'multiple' => true,

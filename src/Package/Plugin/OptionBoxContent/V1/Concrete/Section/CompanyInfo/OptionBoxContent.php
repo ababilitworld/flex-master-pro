@@ -8,8 +8,9 @@ use Ababilithub\{
     FlexPhp\Package\Form\Field\V1\Concrete\Select\Field as SelectField,
     FlexMasterPro\Package\Plugin\Posttype\V1\Concrete\CompanyInfo\Posttype as CompanyInfoPosttype,
     FlexMasterPro\Package\Plugin\OptionBox\V1\Concrete\VerticalTabBox\OptionBox as VerticalTabBoxOptionBox,
-    FlexWordpress\Package\Debug\V1\Factory\Debug as DebugFactory,
-    FlexWordpress\Package\Debug\V1\Concrete\WpError\Debug as WpErrorDebug,
+    FlexWordpress\Package\Notice\V1\Factory\Notice as NoticeFactory,
+    FlexWordpress\Package\Notice\V1\Concrete\Transient\Notice as TransientNotice,
+    FlexWordpress\Package\Notice\V1\Concrete\WpError\Notice as WpErrorNotice,
     
 };
 
@@ -21,14 +22,14 @@ use const Ababilithub\{
 class OptionBoxContent extends BaseOptionBoxContent 
 {
     use OptionMixin;
-    private $debugger;
+    private $notice_board;
 
     public function init(array $data = []): static
     {
         $this->tab_id = PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
         $this->tab_item_id = $this->tab_id.'_company_settings';
         $this->tab_item_label = esc_html__('Company');
-        $this->tab_item_icon = 'fas fa-home';
+        $this->tab_item_icon = 'fas fa-industry';
         $this->tab_item_status = 'active';
         $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();
@@ -40,7 +41,7 @@ class OptionBoxContent extends BaseOptionBoxContent
 
     protected function init_service(): void
     {
-        $this->debugger = DebugFactory::get(WpErrorDebug::class);
+        $this->notice_board = NoticeFactory::get(TransientNotice::class);
     }
 
     protected function init_hook(): void
@@ -68,7 +69,7 @@ class OptionBoxContent extends BaseOptionBoxContent
     }
 
     public function render(): void
-    {        
+    {      
         $option_values = $this->get_option_box_content_values();
         //echo "<pre>";print_r(array($option_values));echo "</pre>";exit;
         

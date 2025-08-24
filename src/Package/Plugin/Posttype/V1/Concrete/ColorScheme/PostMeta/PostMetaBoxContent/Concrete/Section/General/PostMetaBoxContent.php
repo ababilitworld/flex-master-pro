@@ -7,6 +7,7 @@ use Ababilithub\{
     FlexWordpress\Package\PostMetaBoxContent\V1\Base\PostMetaBoxContent as BasePostMetaBoxContent,
     FlexPhp\Package\Form\Field\V1\Factory\Field as FieldFactory,
     FlexPhp\Package\Form\Field\V1\Concrete\Text\Field as TextField,
+    FlexPhp\Package\Form\Field\V1\Concrete\Color\Field as ColorField,
     FlexPhp\Package\Form\Field\V1\Concrete\File\Document\Field as DocField,
     FlexPhp\Package\Form\Field\V1\Concrete\File\Image\Field as ImageField
 };
@@ -43,7 +44,6 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     {
         add_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_item',[$this,'tab_item']);
         add_action(PLUGIN_PRE_UNDS.'_'.$this->posttype.'_'.'meta_box_tab_content', [$this,'tab_content']);
-        //add_action('save_post', [$this, 'save'], 10, 3);
     }
 
     public function render() : void
@@ -53,20 +53,20 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
         ?>
             <div class="panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Company Contact Details</h2>
+                    <h2 class="panel-title">Color Scheme Details</h2>
                 </div>
                 <div class="panel-body">
-                    <div class="panel-row  two-columns">
+                    <div class="panel-row  three-columns">
                         <?php
-                            $mobileNumberField = FieldFactory::get(TextField::class);
-                            $mobileNumberField->init([
-                                'name' => 'mobile-number',
-                                'id' => 'mobile-number',
-                                'label' => 'Mobile Number',
-                                'class' => 'custom-file-input',
+                            $customField = FieldFactory::get(ColorField::class);
+                            $customField->init([
+                                'name' => 'primary-color',
+                                'id' => 'primary-color',
+                                'label' => 'Primary Color',
+                                'class' => 'custom-color-input',
                                 'required' => true,
-                                'help_text' => 'Enter full mobile number of the company',
-                                'value' => $meta_values['mobile_number'],
+                                'help_text' => 'Enter primary color of the scheme',
+                                'value' => $meta_values['primary-color'] ?? '',
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -76,15 +76,33 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                             ])->render();
                         ?>
                         <?php
-                            $emailAddressField = FieldFactory::get(TextField::class);
-                            $emailAddressField->init([
-                                'name' => 'email-address',
-                                'id' => 'email-address',
-                                'label' => 'Email Address',
-                                'class' => 'custom-file-input',
+                            $customField = FieldFactory::get(ColorField::class);
+                            $customField->init([
+                                'name' => 'primary-dark-color',
+                                'id' => 'primary-dark-color',
+                                'label' => 'Primary Dark Color',
+                                'class' => 'custom-color-input',
                                 'required' => true,
-                                'help_text' => 'Enter E-mail address of the company',
-                                'value' => $meta_values['email_address'],
+                                'help_text' => 'Enter primary dark color of the scheme',
+                                'value' => $meta_values['primary-dark-color'] ?? '',
+                                'data' => [
+                                    'custom' => 'value'
+                                ],
+                                'attributes' => [
+                                    'data-preview-size' => '150'
+                                ]
+                            ])->render();
+                        ?>
+                        <?php
+                            $customField = FieldFactory::get(ColorField::class);
+                            $customField->init([
+                                'name' => 'secondary-color',
+                                'id' => 'secondary-color',
+                                'label' => 'Secondary Color',
+                                'class' => 'custom-color-input',
+                                'required' => true,
+                                'help_text' => 'Enter secondary color of the scheme',
+                                'value' => $meta_values['secondary-color'] ?? '',
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -95,16 +113,20 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                         ?>
                     </div>
                     <div class="panel-row">                        
+                        
+                        
+                    </div>
+                    <div class="panel-row two-columns">
                         <?php
-                            $physicalAddressField = FieldFactory::get(TextField::class);
-                            $physicalAddressField->init([
-                                'name' => 'physical-address',
-                                'id' => 'physical-address',
-                                'label' => 'Physical Address',
-                                'class' => 'custom-file-input',
+                            $customField = FieldFactory::get(ColorField::class);
+                            $customField->init([
+                                'name' => 'text-color',
+                                'id' => 'text-color',
+                                'label' => 'Text Color',
+                                'class' => 'custom-color-input',
                                 'required' => true,
-                                'help_text' => 'Enter physical address of the company',
-                                'value' => $meta_values['physical_address'],
+                                'help_text' => 'Enter text color of the scheme',
+                                'value' => $meta_values['text-color'] ?? '',
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -113,49 +135,26 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 ]
                             ])->render();
                         ?>
-                        
-                    </div>
-                    <div class="panel-row">
+
                         <?php
-                            // Regular text field for map URL/embed code
-                            $googleMapLocationField = FieldFactory::get(TextField::class);
-                            $googleMapLocationField->init([
-                                'name' => 'google-map-location',
-                                'id' => 'google-map-location',
-                                'label' => 'Google Map Embed Code',
-                                'class' => 'custom-file-input',
-                                'required' => false,
-                                'help_text' => 'Paste Google Map embed code or share link',
-                                'value' => $this->get_map_location($meta_values['google_map_location']),
+                            $customField = FieldFactory::get(ColorField::class);
+                            $customField->init([
+                                'name' => 'background-color',
+                                'id' => 'background-color',
+                                'label' => 'Background Color',
+                                'class' => 'custom-color-input',
+                                'required' => true,
+                                'help_text' => 'Enter background color of the scheme',
+                                'value' => $meta_values['background-color'] ?? '',
+                                'data' => [
+                                    'custom' => 'value'
+                                ],
                                 'attributes' => [
                                     'data-preview-size' => '150'
                                 ]
                             ])->render();
                         ?>
-                    </div>
-                    <!-- Add new fields for latitude/longitude -->
-                    <div class="panel-row two-columns">
-                        <?php
-                            $latitudeField = FieldFactory::get(TextField::class);
-                            $latitudeField->init([
-                                'name' => 'map-latitude',
-                                'id' => 'map-latitude',
-                                'label' => 'Latitude',
-                                'value' => $meta_values['map_latitude'],
-                                'help_text' => 'e.g., 23.8103'
-                            ])->render();
-                            
-                            $longitudeField = FieldFactory::get(TextField::class);
-                            $longitudeField->init([
-                                'name' => 'map-longitude',
-                                'id' => 'map-longitude',
-                                'label' => 'Longitude',
-                                'value' => $meta_values['map_longitude'],
-                                'help_text' => 'e.g., 90.4125'
-                            ])->render();
-                        ?>
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
         <?php
@@ -165,13 +164,12 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     public function get_meta_values($post_id): array 
     {
         return [
-            'mobile_number' => get_post_meta($post_id, 'mobile-number', true) ?: '',
-            'email_address' => get_post_meta($post_id, 'email-address', true) ?: '',
-            'physical_address' => get_post_meta($post_id, 'physical-address', true) ?: '',
-            'google_map_location' => get_post_meta($post_id, 'google-map-location', true) ?: '',
-            'map_latitude' => get_post_meta($post_id, 'map-latitude', true) ?: '',
-            'map_longitude' => get_post_meta($post_id, 'map-longitude', true) ?: ''
-            
+            'primary-color' => get_post_meta($post_id, 'primary-color', true) ?: '',
+            'primary-dark-color' => get_post_meta($post_id, 'primary-dark-color', true) ?: '',
+            'secondary-color' => get_post_meta($post_id, 'secondary-color', true) ?: '',
+            'text-color' => get_post_meta($post_id, 'text-color', true) ?: '',
+            'background-color' => get_post_meta($post_id, 'background-color', true) ?: '',
+            'success-color' => get_post_meta($post_id, 'success-color', true) ?: ''
         ];
     }
 
@@ -182,13 +180,13 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
             return;
         }
 
-        // Save text fields
-        $this->save_text_field($post_id, 'mobile-number', sanitize_text_field($_POST['mobile-number'] ?? ''));
-        $this->save_text_field($post_id, 'email-address', sanitize_text_field($_POST['email-address'] ?? ''));
-        $this->save_text_field($post_id, 'physical-address', sanitize_text_field($_POST['physical-address'] ?? ''));
-        $this->save_text_field($post_id, 'google-map-location', sanitize_textarea_field($this->prepare_map_location($_POST['google-map-location'] ?? '')));
-        $this->save_text_field($post_id, 'map-latitude', sanitize_text_field($_POST['map-latitude'] ?? ''));
-        $this->save_text_field($post_id, 'map-longitude', sanitize_text_field($_POST['map-longitude'] ?? ''));
-   
+        // Save color fields
+        $this->save_text_field($post_id, 'primary-color', sanitize_text_field($_POST['primary-color'] ?? ''));
+        $this->save_text_field($post_id, 'primary-dark-color', sanitize_text_field($_POST['primary-dark-color'] ?? ''));
+        $this->save_text_field($post_id, 'secondary-color', sanitize_text_field($_POST['secondary-color'] ?? ''));
+        $this->save_text_field($post_id, 'text-color', sanitize_text_field($_POST['text-color'] ?? ''));
+        $this->save_text_field($post_id, 'background-color', sanitize_text_field($_POST['background-color'] ?? ''));
+        $this->save_text_field($post_id, 'success-color', sanitize_text_field($_POST['success-color'] ?? ''));
     }
+
 }

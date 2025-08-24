@@ -58,6 +58,46 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                 <div class="panel-body">
                     <div class="panel-row  two-columns">
                         <?php
+                            $field = '';
+                            $field = FieldFactory::get(TextField::class);
+                            $field->init([
+                                'name' => 'logo-text',
+                                'id' => 'logo-text',
+                                'label' => 'Logo Text',
+                                'class' => 'custom-file-input',
+                                'required' => true,
+                                'help_text' => 'Enter Company Logo Text',
+                                'value' => $meta_values['logo-text'],
+                                'data' => [
+                                    'custom' => 'value'
+                                ],
+                                'attributes' => [
+                                    'data-preview-size' => '150'
+                                ]
+                            ])->render();
+                        ?>
+                        <?php
+                            $field = '';
+                            $field = FieldFactory::get(TextField::class);
+                            $field->init([
+                                'name' => 'moto-text',
+                                'id' => 'moto-text',
+                                'label' => 'Moto Text',
+                                'class' => 'custom-file-input',
+                                'required' => true,
+                                'help_text' => 'Enter Company Moto Text',
+                                'value' => $meta_values['moto-text'],
+                                'data' => [
+                                    'custom' => 'value'
+                                ],
+                                'attributes' => [
+                                    'data-preview-size' => '150'
+                                ]
+                            ])->render();
+                        ?>
+                    </div>
+                    <div class="panel-row  two-columns">
+                        <?php
                             $mobileNumberField = FieldFactory::get(TextField::class);
                             $mobileNumberField->init([
                                 'name' => 'mobile-number',
@@ -66,7 +106,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter full mobile number of the company',
-                                'value' => $meta_values['mobile_number'],
+                                'value' => $meta_values['mobile-number'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -84,7 +124,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter E-mail address of the company',
-                                'value' => $meta_values['email_address'],
+                                'value' => $meta_values['email-address'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -104,7 +144,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => true,
                                 'help_text' => 'Enter physical address of the company',
-                                'value' => $meta_values['physical_address'],
+                                'value' => $meta_values['physical-address'],
                                 'data' => [
                                     'custom' => 'value'
                                 ],
@@ -126,7 +166,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'class' => 'custom-file-input',
                                 'required' => false,
                                 'help_text' => 'Paste Google Map embed code or share link',
-                                'value' => $this->get_map_location($meta_values['google_map_location']),
+                                'value' => $this->get_map_location($meta_values['google-map-location']),
                                 'attributes' => [
                                     'data-preview-size' => '150'
                                 ]
@@ -141,7 +181,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'name' => 'map-latitude',
                                 'id' => 'map-latitude',
                                 'label' => 'Latitude',
-                                'value' => $meta_values['map_latitude'],
+                                'value' => $meta_values['map-latitude'],
                                 'help_text' => 'e.g., 23.8103'
                             ])->render();
                             
@@ -150,7 +190,7 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
                                 'name' => 'map-longitude',
                                 'id' => 'map-longitude',
                                 'label' => 'Longitude',
-                                'value' => $meta_values['map_longitude'],
+                                'value' => $meta_values['map-longitude'],
                                 'help_text' => 'e.g., 90.4125'
                             ])->render();
                         ?>
@@ -165,12 +205,14 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
     public function get_meta_values($post_id): array 
     {
         return [
-            'mobile_number' => get_post_meta($post_id, 'mobile-number', true) ?: '',
-            'email_address' => get_post_meta($post_id, 'email-address', true) ?: '',
-            'physical_address' => get_post_meta($post_id, 'physical-address', true) ?: '',
-            'google_map_location' => get_post_meta($post_id, 'google-map-location', true) ?: '',
-            'map_latitude' => get_post_meta($post_id, 'map-latitude', true) ?: '',
-            'map_longitude' => get_post_meta($post_id, 'map-longitude', true) ?: ''
+            'logo-text' => get_post_meta($post_id, 'logo-text', true) ?: '',
+            'moto-text' => get_post_meta($post_id, 'moto-text', true) ?: '',            
+            'mobile-number' => get_post_meta($post_id, 'mobile-number', true) ?: '',
+            'email-address' => get_post_meta($post_id, 'email-address', true) ?: '',
+            'physical-address' => get_post_meta($post_id, 'physical-address', true) ?: '',
+            'google-map-location' => get_post_meta($post_id, 'google-map-location', true) ?: '',
+            'map-latitude' => get_post_meta($post_id, 'map-latitude', true) ?: '',
+            'map-longitude' => get_post_meta($post_id, 'map-longitude', true) ?: ''
             
         ];
     }
@@ -183,6 +225,8 @@ class PostMetaBoxContent extends BasePostMetaBoxContent
         }
 
         // Save text fields
+        $this->save_text_field($post_id, 'logo-text', sanitize_text_field($_POST['logo-text'] ?? ''));
+        $this->save_text_field($post_id, 'moto-text', sanitize_text_field($_POST['moto-text'] ?? ''));        
         $this->save_text_field($post_id, 'mobile-number', sanitize_text_field($_POST['mobile-number'] ?? ''));
         $this->save_text_field($post_id, 'email-address', sanitize_text_field($_POST['email-address'] ?? ''));
         $this->save_text_field($post_id, 'physical-address', sanitize_text_field($_POST['physical-address'] ?? ''));
