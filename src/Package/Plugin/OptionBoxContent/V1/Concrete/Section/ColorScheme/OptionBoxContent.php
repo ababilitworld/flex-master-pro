@@ -14,6 +14,8 @@ use Ababilithub\{
 use const Ababilithub\{
     FlexMasterPro\PLUGIN_PRE_HYPH,
     FlexMasterPro\PLUGIN_PRE_UNDS,
+    FlexMasterPro\PLUGIN_OPTION_NAME,
+    FlexMasterPro\PLUGIN_OPTION_VALUE,
 };
 
 class OptionBoxContent extends BaseOptionBoxContent 
@@ -30,7 +32,7 @@ class OptionBoxContent extends BaseOptionBoxContent
         $this->tab_item_label = esc_html__('Color Scheme');
         $this->tab_item_icon = 'fas fa-palette';
         $this->tab_item_status = 'not-active';
-        $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
+        $this->option_name = PLUGIN_OPTION_NAME ?? VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();
         //echo "<pre>";print_r($this->option_value);echo "</pre>";exit;
         $this->init_service();
@@ -117,7 +119,7 @@ class OptionBoxContent extends BaseOptionBoxContent
 
     public function get_option_value(): array
     {
-        return get_option($this->option_name) ?: [];
+        return PLUGIN_OPTION_VALUE ?? get_option($this->option_name) ?: [];
     }
 
     public function prepare_select_options(): array

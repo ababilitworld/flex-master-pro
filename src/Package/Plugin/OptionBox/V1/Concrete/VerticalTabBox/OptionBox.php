@@ -11,19 +11,22 @@ use Ababilithub\{
 use const Ababilithub\{
     FlexMasterPro\PLUGIN_PRE_HYPH,
     FlexMasterPro\PLUGIN_PRE_UNDS,
+    FlexMasterPro\PLUGIN_OPTION_NAME,
+    FlexMasterPro\PLUGIN_OPTION_VALUE,
+    
 };
 
 class OptionBox extends BaseOptionBox 
 {
-    public const OPTION_NAME = PLUGIN_PRE_UNDS.'_'.'options';
-    public array $option_value = [];
+    public const OPTION_NAME = PLUGIN_OPTION_NAME ?? PLUGIN_PRE_UNDS.'_'.'options';
+    public array $option_value = PLUGIN_OPTION_VALUE ?? [];
     private $notice_board;
     public $show_notice = false;
     private $redirect_url_after_update_option;
     public function init(array $data = []) : static
     {
         $this->id = $data['id'] ?? PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
-        $this->title = $data['title'] ?? 'Attributes';
+        $this->title = $data['title'] ?? __('Settings', 'flex-master-pro');
         $this->redirect_url_after_update_option = admin_url('admin.php?page=flex-master-pro-option');
         $this->init_service();
         $this->init_hook();
@@ -52,23 +55,23 @@ class OptionBox extends BaseOptionBox
                 <form method="post" action="">
                     <?php wp_nonce_field($this->id.'_nonce_action'); ?>
                     <input type="hidden" name="option_page" value="<?php echo esc_attr($this->id); ?>">
-                    
-                    <div class="app-container">
-                        
-                        <div class="vertical-tabs">
-                            <div class="tabs-header">
-                                <button class="toggle-tabs" id="toggleTabs">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <span class="tabs-title"><?php echo $this->title;?></span>
+                    <div class="tab-system ocean-breeze">
+                        <div class="app-container">                            
+                            <div class="vertical-tabs">
+                                <div class="tabs-header">
+                                    <button class="toggle-tabs" id="toggleTabs">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <span class="tabs-title"><?php echo $this->title;?></span>
+                                </div>
+                                <ul class="tab-items">
+                                    <?php do_action($this->id.'_'.'tab_item'); ?>
+                                </ul>
                             </div>
-                            <ul class="tab-items">
-                                <?php do_action($this->id.'_'.'tab_item'); ?>
-                            </ul>
+                            <main class="content-area">
+                                <?php do_action($this->id.'_'.'tab_content'); ?>
+                            </main>
                         </div>
-                        <main class="content-area">
-                            <?php do_action($this->id.'_'.'tab_content'); ?>
-                        </main>
                     </div>
 
                     <?php submit_button(__('Save Settings', 'text-domain')); ?>
@@ -98,7 +101,7 @@ class OptionBox extends BaseOptionBox
         {
             $this->notice_board->add([
                 'code' => 'settings_save',
-                'message' => __('Settings saved successfully!', 'text-domain'),
+                'message' => __('Settings saved successfully!', 'flex-master-pro'),
                 'data' => ['class' => 'notice notice-success is-dismissible']
             ]);
             wp_safe_redirect($this->redirect_url_after_update_option);                    

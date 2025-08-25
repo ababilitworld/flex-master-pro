@@ -14,6 +14,7 @@ use Ababilithub\{
 use const Ababilithub\{
     FlexMasterPro\PLUGIN_PRE_HYPH,
     FlexMasterPro\PLUGIN_PRE_UNDS,
+    FlexMasterPro\PLUGIN_OPTION_VALUE,
 };
 
 class OptionBoxContent extends BaseOptionBoxContent 
@@ -28,7 +29,7 @@ class OptionBoxContent extends BaseOptionBoxContent
         $this->tab_id = PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
         $this->tab_item_id = $this->tab_id.'_social_platform_settings';
         $this->tab_item_label = esc_html__('Social Platform');
-        $this->tab_item_icon = 'fas fa-share-alt';
+        $this->tab_item_icon = 'fas fa-project-diagram';//'fas fa-share-alt';
         $this->tab_item_status = 'not-active';
         $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();
@@ -188,7 +189,7 @@ class OptionBoxContent extends BaseOptionBoxContent
 
     public function get_option_value(): array
     {
-        return get_option($this->option_name) ?: [];
+        return PLUGIN_OPTION_VALUE ?? get_option($this->option_name) ?: [];
     }
 
 }

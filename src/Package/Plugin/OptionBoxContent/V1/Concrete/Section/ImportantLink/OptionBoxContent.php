@@ -14,6 +14,7 @@ use Ababilithub\{
 use const Ababilithub\{
     FlexMasterPro\PLUGIN_PRE_HYPH,
     FlexMasterPro\PLUGIN_PRE_UNDS,
+    FlexMasterPro\PLUGIN_OPTION_VALUE,
 };
 
 class OptionBoxContent extends BaseOptionBoxContent 
@@ -28,11 +29,11 @@ class OptionBoxContent extends BaseOptionBoxContent
         $this->tab_id = PLUGIN_PRE_HYPH.'-'.'vertical-tab-options';
         $this->tab_item_id = $this->tab_id.'_settings-important-link';
         $this->tab_item_label = esc_html__('Important Link');
-        $this->tab_item_icon = 'fas fa-share-alt';
+        $this->tab_item_icon = 'fas fa-bolt';
         $this->tab_item_status = 'not-active';
         $this->option_name = VerticalTabBoxOptionBox::OPTION_NAME;
         $this->option_value = $this->get_option_value();
-        //echo "<pre>";print_r($this->option_value);echo "</pre>";exit;
+        //echo "<pre>";print_r(PLUGIN_OPTION_VALUE);echo "</pre>";exit;
         $this->init_service();
         $this->init_hook();
         return $this;
@@ -149,24 +150,6 @@ class OptionBoxContent extends BaseOptionBoxContent
                         ])->render();
                     ?>
                 </div>
-                <div class="panel-row">
-                    <?php
-                        $field = '';
-                        $field = FieldFactory::get(TextField::class);
-                        $field->init([
-                            'name' => 'instagram-url',
-                            'id' => 'instagram-url',
-                            'label' => 'Instagram',
-                            'class' => 'custom-file-input',
-                            'required' => false,
-                            'help_text' => 'Enter Instagram Url',
-                            'value' => $option_values['settings-important-link']['important_link_instagram_url'] ?? '',
-                            'attributes' => [
-                                'data-preview-size' => '150'
-                            ]
-                        ])->render();
-                    ?>
-                </div>
             </div>
         </div>
         <?php
@@ -180,14 +163,13 @@ class OptionBoxContent extends BaseOptionBoxContent
                 'refund-policy-url' => $this->option_value['settings-important-link']['refund-policy-url'] ?? '',
                 'documentation-url' => $this->option_value['settings-important-link']['documentation-url'] ?? '',
                 'support-url' => $this->option_value['settings-important-link']['support-url'] ?? '',
-                'important_link_instagram_url' => $this->option_value['settings-important-link']['important_link_instagram_url'] ?? '',
             ]
         ];
     }
 
     public function get_option_value(): array
     {
-        return get_option($this->option_name) ?: [];
+        return PLUGIN_OPTION_VALUE ?? get_option($this->option_name) ?: [];
     }
 
 }
